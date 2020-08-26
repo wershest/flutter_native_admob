@@ -34,12 +34,7 @@ class _MyAppState extends State<MyApp> {
               color: Colors.green,
             ),
             Container(
-              margin: EdgeInsets.only(bottom: 20.0),
-              height: 200.0,
-              color: Colors.green,
-            ),
-            Container(
-              height: 90,
+              height: 80,
               padding: EdgeInsets.all(10),
               margin: EdgeInsets.only(bottom: 20.0),
               child: NativeAdmob(

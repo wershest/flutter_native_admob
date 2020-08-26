@@ -38,7 +38,7 @@ class NativeAdView: GADUnifiedNativeAdView {
     
     let adIconView: UIImageView = {
         let imageView = UIImageView()
-        imageView.autoSetDimensions(to: CGSize(width: 40, height: 40))
+        imageView.autoSetDimensions(to: CGSize(width: 60, height: 60))
         return imageView
     }()
     
@@ -86,7 +86,7 @@ class NativeAdView: GADUnifiedNativeAdView {
         button.setBackgroundImage(.from(color: .fromHex("#4CBE99")), for: .normal)
         button.setTitleColor(.white, for: .normal)
         button.titleLabel?.font = UIFont.systemFont(ofSize: 15)
-        button.contentEdgeInsets = UIEdgeInsets(top: 0, left: 15, bottom: 0, right: 15)
+        button.contentEdgeInsets = UIEdgeInsets(top: 0, left: 8, bottom: 0, right: 8)
         button.autoSetDimension(.height, toSize: 30)
         return button
     }()
@@ -249,18 +249,27 @@ private extension NativeAdView {
         adBodyLbl.numberOfLines = 2
         
         callToActionBtn.setContentHuggingPriority(.defaultHigh, for: .horizontal)
+        callToActionBtn.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
         adLabelLbl.autoSetDimension(.height, toSize: 15, relation: .greaterThanOrEqual)
         
-        addSubview(adLabelView)
-        adLabelView.autoPinEdge(toSuperviewEdge: .top)
-        adLabelView.autoPinEdge(toSuperviewEdge: .leading)
+        // addSubview(adLabelView)
+        // adLabelView.autoPinEdge(toSuperviewEdge: .top)
+        // adLabelView.autoPinEdge(toSuperviewEdge: .leading)
         
         let contentView = UIView()
         addSubview(contentView)
-        contentView.autoPinEdgesToSuperviewEdges(with: .zero, excludingEdge: .top)
-        contentView.autoPinEdge(.top, to: .bottom, of: adLabelView, withOffset: 5)
+        // contentView.autoPinEdgesToSuperviewEdges(with: .zero, excludingEdge: .top)
+        // contentView.autoPinEdge(.top, to: .bottom, of: adLabelView, withOffset: 5)
+        contentView.autoPinEdgesToSuperviewEdges(with: .zero)
+
+        let trailingLayout = StackLayout().direction(.vertical).alignItems(.leading).justifyContent(.equalSpacing).children([
+              adLabelView,
+              callToActionBtn
+            ])
+        trailingLayout.setContentHuggingPriority(.defaultHigh, for: .horizontal)
+        trailingLayout.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
         
-        let layout = StackLayout().spacing(5).children([
+        let layout = StackLayout().spacing(5).alignItems(.fill).children([
             adIconView,
             StackLayout().direction(.vertical).children([
                 adHeadLineLbl,
@@ -271,7 +280,7 @@ private extension NativeAdView {
                     UIView()
                 ]),
             ]),
-            callToActionBtn
+            trailingLayout
         ])
         layout.isUserInteractionEnabled = false
         contentView.addSubview(layout)
