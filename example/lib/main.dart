@@ -107,7 +107,7 @@ class _MyAppState extends State<MyApp> {
         floatingActionButton: FloatingActionButton.extended(
           label: Text("Refresh Ads"),
           onPressed: () {
-            _nativeAdController.reloadAd(forceRefresh: true);
+            _nativeAdController.reloadAd(forceRefresh: false, numberAds: 3);
           },
         ),
       ),
