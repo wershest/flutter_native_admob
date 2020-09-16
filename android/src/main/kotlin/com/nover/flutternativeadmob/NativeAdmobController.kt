@@ -11,6 +11,7 @@ import com.google.android.gms.ads.formats.UnifiedNativeAd
 import io.flutter.plugin.common.BinaryMessenger
 import io.flutter.plugin.common.MethodCall
 import io.flutter.plugin.common.MethodChannel
+import kotlin.random.Random
 
 class NativeAdmobController(
     val id: String,
@@ -27,6 +28,9 @@ class NativeAdmobController(
   }
 
   var nativeAdChanged: ((UnifiedNativeAd?) -> Unit)? = null
+
+  var nativeAds = mutableListOf<UnifiedNativeAd>()
+
   var nativeAd: UnifiedNativeAd? = null
     set(value) {
       field = value
@@ -51,7 +55,10 @@ class NativeAdmobController(
           if (adLoader == null || isChanged) {
             val builder = AdLoader.Builder(context, it)
             adLoader = builder.forUnifiedNativeAd { nativeAd ->
-              this.nativeAd = nativeAd
+              nativeAds.add(nativeAd)
+              if(this.nativeAd == null) {
+                this.nativeAd = nativeAd
+              }
             }.withAdListener(object : AdListener() {
               override fun onAdFailedToLoad(errorCode: Int) {
                 println("onAdFailedToLoad errorCode = $errorCode")
@@ -70,7 +77,13 @@ class NativeAdmobController(
         var numberAds: Int? = 1
         call.argument<Int>("numberAds")?.let { numberAds = it }
         call.argument<Boolean>("forceRefresh")?.let {
-          if (it || nativeAd == null) loadAd(numberAds) else invokeLoadCompleted()
+          if (it || nativeAd == null)
+            loadAd(numberAds)
+          else {
+            //invokeLoadCompleted()
+            val randomIndex = Random.nextInt(0, nativeAds.count())
+            this.nativeAd = nativeAds[randomIndex]
+          }
         }
       }
 
