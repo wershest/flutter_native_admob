@@ -38,7 +38,8 @@ class NativeAdView: GADUnifiedNativeAdView {
   
   let adIconView: UIImageView = {
     let imageView = UIImageView()
-    imageView.autoSetDimensions(to: CGSize(width: 60, height: 60))
+    imageView.autoSetDimensions(to: CGSize(width: 60, height: 80))
+    imageView.contentMode = .scaleAspectFit
     imageView.backgroundColor = .clear
     imageView.isOpaque = false
     return imageView
@@ -253,15 +254,8 @@ private extension NativeAdView {
   func setupBannerLayout() {
     adBodyLbl.numberOfLines = 2
     adLabelView.setContentHuggingPriority(.defaultHigh, for: .horizontal)
-    callToActionBtn.setContentHuggingPriority(.defaultHigh, for: .horizontal)
-    callToActionBtn.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
-    adHeadLineLbl.setContentHuggingPriority(.defaultLow, for: .horizontal)
-    adHeadLineLbl.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
-    adBodyLbl.setContentHuggingPriority(.defaultLow, for: .horizontal)
-    adBodyLbl.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
-    adAdvertiserLbl.setContentHuggingPriority(.defaultLow, for: .horizontal)
-    adAdvertiserLbl.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
-    adRatingView.setContentHuggingPriority(.defaultLow, for: .horizontal)
+    callToActionBtn.setContentHuggingPriority(.required, for: .horizontal)
+    callToActionBtn.setContentCompressionResistancePriority(.required, for: .horizontal)
     
     adLabelLbl.autoSetDimension(.height, toSize: 15, relation: .greaterThanOrEqual)
         
@@ -284,11 +278,12 @@ private extension NativeAdView {
       ]),
     ]);
     
-    
+    let springView = UIView()
+    springView.setContentHuggingPriority(.defaultLow, for: .horizontal)
     let layout = StackLayout().justifyContent(.fill).spacing(5).alignItems(.fill).children([
       adIconView,
       middleLayout,
-      UIView(),
+      springView,
       trailingLayout
     ])
     layout.isUserInteractionEnabled = false
