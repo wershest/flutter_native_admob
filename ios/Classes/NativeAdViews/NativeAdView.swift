@@ -9,7 +9,7 @@ import UIKit
 import GoogleMobileAds
 
 enum NativeAdmobType: String {
-  case banner, full
+  case banner, bigBanner, full
 }
 
 class NativeAdView: GADUnifiedNativeAdView {
@@ -190,6 +190,7 @@ private extension NativeAdView {
     switch type {
     case .full: setupFullLayout()
     case .banner: setupBannerLayout()
+    case .bigBanner: setupBigBannerLayout()
     }
   }
   
@@ -249,7 +250,60 @@ private extension NativeAdView {
     layout.autoPinEdge(toSuperviewEdge: .bottom, withInset: 0, relation: .greaterThanOrEqual)
   }
   
-  
+  func setupBigBannerLayout() {
+    adBodyLbl.numberOfLines = 2
+    
+    let infoLayout = StackLayout().spacing(5).children([
+      adIconView,
+      StackLayout().direction(.vertical).children([
+        adHeadLineLbl,
+        StackLayout().children([
+          adAdvertiserLbl,
+          adRatingView,
+          UIView()
+        ]),
+      ]),
+    ])
+    
+    callToActionBtn.setContentHuggingPriority(.defaultHigh, for: .horizontal)
+    
+    let actionLayout = StackLayout()
+      .spacing(5)
+      .children([
+        UIView(),
+        adPriceLbl,
+        adStoreLbl,
+        callToActionBtn
+      ])
+    
+    adBodyLbl.autoSetDimension(.height, toSize: 20, relation: .greaterThanOrEqual)
+    adLabelLbl.autoSetDimension(.height, toSize: 15, relation: .greaterThanOrEqual)
+    
+    addSubview(adLabelView)
+    adLabelView.autoPinEdge(toSuperviewEdge: .top)
+    adLabelView.autoPinEdge(toSuperviewEdge: .leading)
+    
+    let contentView = UIView()
+    addSubview(contentView)
+    contentView.autoPinEdgesToSuperviewEdges(with: .zero, excludingEdge: .top)
+    contentView.autoPinEdge(.top, to: .bottom, of: adLabelView, withOffset: 5)
+    
+    let layout = StackLayout()
+      .direction(.vertical)
+      .spacing(5)
+      .children([
+        infoLayout,
+        adBodyLbl,
+        actionLayout
+      ])
+    layout.isUserInteractionEnabled = false
+    contentView.addSubview(layout)
+    layout.autoAlignAxis(toSuperviewAxis: .horizontal)
+    layout.autoPinEdge(toSuperviewEdge: .leading)
+    layout.autoPinEdge(toSuperviewEdge: .trailing)
+    layout.autoPinEdge(toSuperviewEdge: .top, withInset: 0, relation: .greaterThanOrEqual)
+    layout.autoPinEdge(toSuperviewEdge: .bottom, withInset: 0, relation: .greaterThanOrEqual)
+  }
   
   func setupBannerLayout() {
     adBodyLbl.numberOfLines = 2

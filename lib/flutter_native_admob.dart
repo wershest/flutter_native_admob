@@ -9,7 +9,7 @@ import 'native_admob_options.dart';
 
 const _viewType = "native_admob";
 
-enum NativeAdmobType { banner, full }
+enum NativeAdmobType { banner, bigBanner, full }
 
 class NativeAdmob extends StatefulWidget {
   final String adUnitID;
@@ -58,7 +58,8 @@ class _NativeAdmobState extends State<NativeAdmob> {
   @override
   void initState() {
     _nativeAdController = widget.controller ?? NativeAdmobController();
-    _nativeAdController.setAdUnitID(widget.adUnitID, numberAds: widget.numberAds);
+    _nativeAdController.setAdUnitID(widget.adUnitID,
+        numberAds: widget.numberAds);
 
     _subscription = _nativeAdController.stateChanged.listen((state) {
       setState(() {

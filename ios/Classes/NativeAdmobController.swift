@@ -101,6 +101,8 @@ class NativeAdmobController: NSObject {
       request.register(extras)
     }
     adLoader?.load(request)
+    
+    //nativeAds.removeAll()
   }
   
   private func invokeLoadCompleted() {
