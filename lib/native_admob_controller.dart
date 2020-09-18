@@ -86,4 +86,8 @@ class NativeAdmobController {
       "testDeviceIds": ids,
     });
   }
+
+  void requestTrackingAuthorization() {
+    _pluginChannel.invokeMethod("requestTrackingAuthorization");
+  }
 }

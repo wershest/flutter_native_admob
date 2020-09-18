@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_native_admob/flutter_native_admob.dart';
 import 'package:flutter_native_admob/native_admob_controller.dart';
@@ -13,6 +15,15 @@ class _MyAppState extends State<MyApp> {
   static const _adUnitID = "ca-app-pub-3940256099942544/8135179316";
 
   final _nativeAdController = NativeAdmobController();
+
+  @override
+  void initState() {
+    super.initState();
+
+    Future.delayed(Duration(milliseconds: 500), () {
+      _nativeAdController.requestTrackingAuthorization();
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
