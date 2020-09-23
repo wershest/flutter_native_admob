@@ -102,7 +102,7 @@ class NativeAdmobController: NSObject {
     }
     adLoader?.load(request)
     
-    //nativeAds.removeAll()
+    nativeAds.removeAll()
   }
   
   private func invokeLoadCompleted() {

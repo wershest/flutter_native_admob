@@ -110,6 +110,8 @@ class NativeAdmobController(
     } else {
       adLoader?.loadAd(requestBuilder.build())
     }
+
+    nativeAds.clear()
   }
 
   private fun invokeLoadCompleted() {
